@@ -16,6 +16,7 @@ use App\Models\User;
 use App\Models\CdrGroup;
 use App\Models\SiteSetting;
 use App\Models\EmailTemplate;
+use App\Models\Question;
 use Auth;
 use Config;
 use Response;
@@ -28,15 +29,26 @@ class CustomersController extends Controller
 		$data = User::where('id',$user_id)->select('business_name')->first();
 		$business_name = $data->business_name;
 		$site_data = SiteSetting::where('user_id',$user_id)->first();
+		$questions = Question::where('created_by',$user_id)->get();
 		//print_r($site_data->toArray());die;
-		return view('users.business_customers.index',compact('user_id','site_data'));	
+		return view('users.business_customers.index',compact('user_id','site_data','questions'));	
 	}
 	
 	public function customer_create(createCustomerRequest $request,$user_id){
 		if($request->ajax()){
-			$data = array();
 			$result = User::where('id',$user_id)->select('business_name')->first();
 			$business_name = $result->business_name;
+			$message = 'green';
+			$questions = Question::where('created_by',$user_id)->get();
+			if(!empty($questions)){
+				$ans = [];
+				foreach ($questions as $ke => $val) {
+					$ans[$val['id']] = $val['answer'];
+				}
+				if($ans != $request->answer){
+					$message = 'red';
+				}
+			}
 		
 		//	echo '<pre>';print_r();die;
 			foreach($request->all() as $key=>$value){
@@ -92,20 +104,19 @@ class CustomersController extends Controller
 			if(!$error){
 				return Response::json(array(
 					  'success'=>true,
+					  'message'=>$message,
 					 ), 200);
 				//return redirect('thankyou');	
 				//return redirect('thankyou')->with('success','Please check your email for the activation link.'); 
 			}
 		}	
 	}
-	public function thankyou($user_id,$customer_name){
+	public function thankyou($user_id,$customer_name,$covid){
 		$data = User::where('id',$user_id)->select('business_name')->first();
 		$business_name = $data->business_name;
 		$site_data = SiteSetting::where('user_id',$user_id)->first();
 		//print_r($site_data->toArray());die;
-		
-		
-		return view('users.business_customers.thankyou',compact('user_id','site_data','customer_name'));	
+		return view('users.business_customers.thankyou',compact('user_id','site_data','customer_name','covid'));	
 	}
 	public function customerUpdate(UpdateCustomerRequest $request,$user_id){
 		$data=array();

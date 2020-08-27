@@ -4,7 +4,7 @@
 		 @php    
 		 $roleArray = Config::get('constant.role_id');
          $ractive='';  $aactive='';	 $uactive='';	$rcactive=''; $rpcactive='';$cust_active='';$accactive='';
-		 $auactive=''; $sactive ='';$emactive ='';$site_sactive ='';
+		 $auactive=''; $sactive ='';$emactive ='';$site_sactive =''; $qactive='';
 		 @endphp
 		 
 		 <!-- ACTIVE REQUESTS -->
@@ -73,6 +73,12 @@
 			  $emactive ='active'
 			 @endphp
 		 @endif
+		 <!-- ACTIVE QUESTION -->
+		 @if(collect(request()->segments())->last()=='questions')
+		 @php
+	      $qactive ='active'
+	     @endphp
+		 @endif
 		 
 			<ul class="list-unstyled">
 				@if(current_user_role_id()==$roleArray['DATA_ANALYST'])
@@ -109,6 +115,14 @@
 				  <li class="{{$site_sactive}}">
 					<a href="{{url('/site-settings')}}">
 						<i class="simple-icon-settings"></i> Config
+					</a>
+				 </li>
+				@endif
+
+				@if(current_user_role_id()==$roleArray['DATA_ANALYST'])
+				  <li class="{{$qactive}}">
+					<a href="{{url('/questions')}}">
+						<i class="simple-icon-question"></i> Questions
 					</a>
 				 </li>
 				@endif

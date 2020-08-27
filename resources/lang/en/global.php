@@ -152,6 +152,7 @@ return [
     'actions'                        => 'Actions',
     'add_user'                        => 'Add User',
 	'add_business_user'                    => 'Add Business',
+    'add_question'                    => 'Add Question',
     'remember_token'                       => 'Remember token',
     'permissions'                          => 'Permissions',
     'user_actions'                         => 'User actions',

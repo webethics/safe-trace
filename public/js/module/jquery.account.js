@@ -183,8 +183,16 @@
 						}
 						if(settings.handler =='create_cust'){
 							var customer_name = $('#filling_customer').val();
-							window.location  = base_url+'/thankyou/'+id+'/'+customer_name;
+							var covid = 'N';
+							if(data.message == 'red'){
+								covid = 'Y';
+							}
+							window.location  = base_url+'/thankyou/'+id+'/'+customer_name+'/'+covid;
 						}
+						// if(settings.handler =='create_ques'){
+						// 	//notification('Success','New question has been created successfully.','top-right','success',40000);
+						// 	window.location  = base_url+'/questions/';
+						// }
 						
 					   $(this).removeClass('editable-unsaved');
 					   //show messages
@@ -314,6 +322,15 @@ $('form#create_customer').newForm({
 	button: 'button#create_cust',
 	requestURL: '/customer-info/',
 	successMessage: 'New customer has been created successfully.',
+	dropzoneRequired: false,
+});
+$('form#create_question').newForm({
+	handler:'create_ques',
+	errorMessageClass:'.errors',
+	commonErrorSeclector:'_error',
+	button: 'button#create_ques',
+	requestURL: '/question-info/',
+	successMessage: 'New question has been created successfully.',
 	dropzoneRequired: false,
 });
 

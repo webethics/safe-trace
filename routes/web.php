@@ -144,8 +144,15 @@ Route::group(['prefix' => '','as' => 'user.' ,'namespace' => 'User','middleware'
 	Route::post('export_customers',array('as'=>'ajax.pagination','uses'=>'BusinessUsersController@exportCustomers'));
 	Route::post('export_users_customers/{id}',array('as'=>'ajax.pagination','uses'=>'UsersController@exportListingCustomers'));
 	Route::post('export_users',array('as'=>'ajax.pagination','uses'=>'UsersController@exportUsers'));
-	
-	
+
+	//Questions
+	Route::get('questions',array('uses'=>'QuestionsController@index'));
+	Route::get('/question-info/{user_id}', 'QuestionsController@create')->name('question.create');
+	//Route::post('/question/create/', 'QuestionsController@question_save');
+	Route::post('/question-info/{user_id}',array('uses'=>'QuestionsController@question_save'));
+	Route::post('question/edit/{request_id}', 'QuestionsController@question_edit'); 
+	Route::post('update-question/{id}','QuestionsController@question_update');
+	Route::post('delete-question/{id}', 'QuestionsController@question_delete')->name('question.delete');
 	
 });
 
@@ -168,7 +175,7 @@ Route::post('password/reset_new_user_password', 'Auth\ResetPasswordController@re
 Route::group(['prefix' => '','as' => 'user.' ,'namespace' => 'User'], function () {
 	
 Route::get('/customer-info/{user_id}', 'CustomersController@customer_info')->name('customer_info');
-Route::get('thankyou/{user_id}/{customer_name}', 'CustomersController@thankyou')->name('thankyou');
+Route::get('thankyou/{user_id}/{customer_name}/{covid}', 'CustomersController@thankyou')->name('thankyou');
 Route::post('/customer-info/{user_id}', 'CustomersController@customer_create')->name('customer_create');
 Route::post('/submit-contact/', 'CustomersController@submit_contact')->name('submit_contact');
 });

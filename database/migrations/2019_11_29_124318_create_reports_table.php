@@ -18,8 +18,8 @@ class CreateReportsTable extends Migration
             $table->integer('request_id');
             $table->string('zip_file_name')->nullable();
             $table->string('zip_password')->nullable();;
-            $table->timestamp('created_at');
-            $table->timestamp('deleted_at');
+            $table->nullableTimestamps();
+            $table->softDeletes();
         });
     }
 

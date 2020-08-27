@@ -367,6 +367,49 @@ $(document).on('click', '.delete_customer' , function() {
         },
     });
 })
+/*==============================================
+	SHOW EDIT QUESTION REQUEST FORM 
+============================================*/
+$(document).on('click', '.editQuestion' , function() {
+			
+	var ques_id = $(this).data('ques_id');
+	var csrf_token = $('meta[name="csrf-token"]').attr('content');
+	 $.ajax({
+        type: "POST",
+		dataType: 'json',
+        url: base_url+'/question/edit/'+ques_id,
+        data: {_token:csrf_token,ques_id:ques_id},
+        success: function(data) {
+			if(data.success){
+			
+				$('.questionEditModal').html(data.data);
+				$('.questionEditModal').modal('show');
+				$('.errors').html('');
+			}else{
+				notification('Error','Something went wrong.','top-right','error',3000);
+			}	
+        },
+    });
+})
+	
+$(document).on('click', '.delete_question' , function() {
+	var ques_id = $(this).data('id');
+	var csrf_token = $('meta[name="csrf-token"]').attr('content');
+	 $.ajax({
+        type: "POST",
+		dataType: 'json',
+        url: base_url+'/delete-question/'+ques_id,
+        data: {_token:csrf_token,ques_id:ques_id},
+        success: function(data) {
+			if(data.success){
+				notification('Success','Question deleted Successfully','top-right','success',2000);
+				$('.ques_row_'+ques_id).hide();
+			}else{
+				notification('Error','Something went wrong.','top-right','error',3000);
+			}	
+        },
+    });
+})
 
 /*==============================================
 	UPDATE REQUEST FORM 
@@ -439,6 +482,45 @@ $(document).on('submit','#updateCustomer', function(e) {
 			$('#mobile_number_'+user_id).text(my_number);
 			notification('Success','Customer Updated Successfully','top-right','success',2000);
 			setTimeout(function(){ $('.customerEditModal').modal('hide'); }, 2000);
+		},
+		error :function( data ) {
+         if( data.status === 422 ) {
+			$('.request_loader').css('display','none');
+			$('.errors').html('');
+			//notification('Error','Please fill all the fields.','top-right','error',4000);
+            var errors = $.parseJSON(data.responseText);
+            $.each(errors, function (key, value) {
+                // console.log(key+ " " +value);
+                if($.isPlainObject(value)) {
+                    $.each(value, function (key, value) {                       
+                        //console.log(key+ " " +value);	
+					  var key = key.replace('.','_');
+					  $('.'+key+'_error').show().append(value);
+                    });
+                }else{
+                // $('#response').show().append(value+"<br/>"); //this is my div with messages
+                }
+            }); 
+          }
+		}
+
+    });
+});
+$(document).on('submit','#updateQuestion', function(e) {
+    e.preventDefault(); 
+	var ques_id = $('#ques_id').val();
+	$('.request_loader').css('display','inline-block');
+    $.ajax({
+        type: "POST",
+		dataType: 'json',
+        url: base_url+'/update-question/'+ques_id,
+        data: $(this).serialize(),
+        success: function(data) {
+			
+			$('#ques_'+ques_id).text(data.question);
+			$('#ans_'+ques_id).text(data.answer);
+			notification('Success','Question Updated Successfully','top-right','success',2000);
+			setTimeout(function(){ $('.questionEditModal').modal('hide'); }, 2000);
 		},
 		error :function( data ) {
          if( data.status === 422 ) {

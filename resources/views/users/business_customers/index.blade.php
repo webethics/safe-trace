@@ -14,6 +14,29 @@
 	border-color:{{$site_data && $site_data->font_color?$site_data->font_color:'#ffffff'}}	
 }
 .phone{font-size: 12px;}
+div.options > label > input {
+    visibility: hidden;
+}
+div.radioCheck > label > input {
+    visibility: hidden;
+}
+
+div.radioCheck > label > img {
+    display: inline-block;
+    padding: 0px;
+    height:30px;
+    width:30px;
+    background: none;
+    margin-left: 5px;
+}
+
+div.radioCheck > label > input:checked +img {  
+    background: url("/img/check.png");
+    background-repeat: no-repeat;
+    background-position:center center;
+    background-size:30px 30px;
+}
+
 </style>
 
 <script src="{{ asset('js/module/jquery.account.js')}}"></script>
@@ -81,12 +104,39 @@ $(document).ready(function() {
 					<form method="POST" name="create_customer"  data-id="{{$user_id}}"  id="create_customer" class="frm_class">
 					
 					{{ csrf_field() }}
-					  <div class="control-group after-add-more">
+                    @if($questions)
+                    @php
+                    $i=1;
+                    @endphp
+                    @foreach($questions as $key => $ques)
+                    <div class="form-group">
+                      {{$i}}. {{$ques->question}}
+                    </div>
+                    <div class="form-group radioCheck">
+                        <label title="yes">
+                            <input type="radio" name="answer[{{$ques->id}}]" value="yes" checked>
+                            Yes
+                            <img />
 
-					  <div class="form-group">
-						<input type="text" class="form-control" id="filling_customer" name ="customer_name[1]" placeholder="*Name:">
-						<div class="customer_name.1_error errors"></div>
-					  </div>
+                        </label>
+                        <label title="no">
+                            <input type="radio" name="answer[{{$ques->id}}]" value="no">
+                            No
+                            <img />
+
+                        </label>
+                    </div>
+                    @php
+                    $i++;
+                    @endphp
+                    @endforeach
+                    @endif
+				    <div class="control-group after-add-more">
+
+				    <div class="form-group">
+					   <input type="text" class="form-control" id="filling_customer" name ="customer_name[1]" placeholder="*Name:">
+					   <div class="customer_name.1_error errors"></div>
+				    </div>
 					 
 					 <div class="form-row">
 						<div class="col-md-3 form-group">

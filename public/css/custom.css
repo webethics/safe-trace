@@ -285,6 +285,40 @@ table.dataTable thead .sorting_desc {
     padding-top: 15px;
 }
 
+.btn.remove {
+    float: right;
+    margin-bottom: 15px;
+}
+.form-group.addMore {
+    font-size: 18px;
+}
+.add-more.add_form_field {
+    color: green;
+}
+.answer {
+    font-size: medium;
+    font-weight: bold;
+}
+div.radioCheck > label > input {
+    visibility: hidden;
+}
+
+div.radioCheck > label > img {
+    display: inline-block;
+    padding: 0px;
+    height:30px;
+    width:30px;
+    background: none;
+    margin-left: 5px;
+}
+
+div.radioCheck > label > input:checked +img {  
+    background: url("/img/check.png");
+    background-repeat: no-repeat;
+    background-position:center center;
+    background-size:30px 30px;
+}
+
 
 @media(min-width:768px) {
 	.termcondition {
