@@ -18,7 +18,7 @@ $(document).ready(function() {
         e.preventDefault();
 		 if(x < max_fields){
             x++;
-            $(wrapper).append('<div class="control-group"><div class="form-group"><input type="text" class="form-control" name ="question['+x+']" placeholder="*Question:"><div class="question.'+x+'_error errors">{{ $errors->first("question['+x+']")  }}</div></div><div class="form-group radioCheck"><span class="answer">Answer :-</span><label title="yes"><input type="radio" name="answer['+x+']" value="yes" checked>Yes<img /></label><label title="no"><input type="radio" name="answer['+x+']" value="no">No<img /></label></div><button class="btn btn-danger remove delete" type="button"><i class="glyphicon glyphicon-remove"></i> Remove</button></div>'); //add input box
+            $(wrapper).append('<div class="control-group"><div class="form-group"><input type="text" class="form-control quesField" name ="question['+x+']" placeholder="*Question:"><div class="question.'+x+'_error errors">{{ $errors->first("question['+x+']")  }}</div></div><div class="form-group radioCheck"><span class="answer">Answer :-</span><label title="yes"><input type="radio" name="answer['+x+']" value="yes" checked>Yes<img /></label><label title="no"><input type="radio" name="answer['+x+']" value="no">No<img /></label></div><button class="btn btn-danger remove delete" type="button"><i class="glyphicon glyphicon-remove"></i> Remove</button></div>'); //add input box
 			$('#total_member').val(x);
         }
   else
@@ -49,7 +49,7 @@ $(document).ready(function() {
 				 {{ csrf_field() }}
 				<div class="control-group after-add-more">
 					<div class="form-group">
-						<input type="text" class="form-control" name ="question[1]" placeholder="*Questions:">
+						<input type="text" class="form-control quesField" name ="question[1]" placeholder="*Questions:">
 						<div class="question.1_error errors"></div>
 					</div>
 					<!-- <div class="form-group">

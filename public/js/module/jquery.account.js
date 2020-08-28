@@ -189,10 +189,9 @@
 							}
 							window.location  = base_url+'/thankyou/'+id+'/'+customer_name+'/'+covid;
 						}
-						// if(settings.handler =='create_ques'){
-						// 	//notification('Success','New question has been created successfully.','top-right','success',40000);
-						// 	window.location  = base_url+'/questions/';
-						// }
+						if(settings.handler =='create_ques'){
+							$('.quesField').val('');
+						}
 						
 					   $(this).removeClass('editable-unsaved');
 					   //show messages
